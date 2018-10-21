@@ -26,7 +26,7 @@ result = []
 
 for line in source:
     # convert target ppm to category
-
+    # and add it to the output
 
     result += [[ppm_to_category(int(line[1]))] + line_3[2:5] + line_2[2:5] + line_1[2:5]]
     # shift lines

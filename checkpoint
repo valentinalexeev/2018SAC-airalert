@@ -1,0 +1,2 @@
+model_checkpoint_path: "/mnt/c/Work/2018SAC-airalert/cyprus.tflearn"
+all_model_checkpoint_paths: "/mnt/c/Work/2018SAC-airalert/cyprus.tflearn"
