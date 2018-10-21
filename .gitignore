@@ -1,0 +1,5 @@
+data/*
+*.pyc
+bin
+lib
+include
