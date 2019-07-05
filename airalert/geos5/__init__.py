@@ -63,34 +63,38 @@ class FileLoader():
 
     def get_training_data(self, variable, result_latlng, impact_latlngs):
         #log.info("get_training_data {}".format(self._cached_file_name()));
-        rootgrp = Dataset(self._cached_file_name())
+        result = []
+        try:
+            rootgrp = Dataset(self._cached_file_name())
 
-        lats = rootgrp.variables['lat'][:]
-        lons = rootgrp.variables['lon'][:]
+            lats = rootgrp.variables['lat'][:]
+            lons = rootgrp.variables['lon'][:]
 
-        result_idx = [
-            np.argmin(np.abs(lats - result_latlng[0])),
-            np.argmin(np.abs(lons - result_latlng[1]))
-        ]
-
-        impact_idxs = []
-        for impact in impact_latlngs:
-            impact_idxs += [[
-                np.argmin(np.abs(lats - impact[0])),
-                np.argmin(np.abs(lats - impact[1]))
-            ]]
-
-
-        var = rootgrp.variables[variable]
-        result = [
-            int(var[:, result_idx[0], result_idx[1]][0] * GEOS_VARIABLE_CONVERSION[variable])
-        ]
-        for impact_idx in impact_idxs:
-            result += [
-                int(var[:, impact_idx[0], impact_idx[1]][0] * GEOS_VARIABLE_CONVERSION[variable])
+            result_idx = [
+                np.argmin(np.abs(lats - result_latlng[0])),
+                np.argmin(np.abs(lons - result_latlng[1]))
             ]
 
-        rootgrp.close()
+            impact_idxs = []
+            for impact in impact_latlngs:
+                impact_idxs += [[
+                    np.argmin(np.abs(lats - impact[0])),
+                    np.argmin(np.abs(lats - impact[1]))
+                ]]
+
+
+            var = rootgrp.variables[variable]
+            result = [
+                int(var[:, result_idx[0], result_idx[1]][0] * GEOS_VARIABLE_CONVERSION[variable])
+            ]
+            for impact_idx in impact_idxs:
+                result += [
+                    int(var[:, impact_idx[0], impact_idx[1]][0] * GEOS_VARIABLE_CONVERSION[variable])
+                ]
+
+            rootgrp.close()
+        except:
+            log.warn('Unable to read GEOS-5 file {}.'.format(self._cached_file_name()))
         return result
 
 class DataLoader():

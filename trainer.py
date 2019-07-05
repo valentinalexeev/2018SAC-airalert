@@ -4,15 +4,15 @@ import tflearn
 # Load CSV file, indicate that the first column represents labels
 from tflearn.data_utils import load_csv
 data, labels = load_csv('cyprus_train_model.csv', target_column=0,
-                        categorical_labels=True, n_classes=5)
+                        categorical_labels=True, n_classes=6)
 
 # Build neural network
 # 9 inputs (3 areas for 3 previous days)
 net = tflearn.input_data(shape=[None, 9])
 net = tflearn.fully_connected(net, 32)
 net = tflearn.fully_connected(net, 32)
-# 5 possible outputs
-net = tflearn.fully_connected(net, 5, activation='softmax')
+# 6 possible outputs
+net = tflearn.fully_connected(net, 6, activation='softmax')
 net = tflearn.regression(net)
 
 # Define model
